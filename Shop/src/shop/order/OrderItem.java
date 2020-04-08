@@ -2,20 +2,33 @@ package shop.order;
 
 import java.math.BigDecimal;
 
+import shop.cart.CartItem;
+import shop.product.Product;
+import shop.product.ProductManager;
+
 public class OrderItem {
 	private int productId;
 	private String name;
 	private int quantity;
-	private double price;
+	private BigDecimal price;
 	private int vat;
 
-	public OrderItem(int productId, String name, int quantity, double price, int vat) {
+	public OrderItem(int productId, String name, int quantity, BigDecimal price, int vat) {
 		super();
 		this.productId = productId;
 		this.name = name;
 		this.quantity = quantity;
 		this.price = price;
 		this.vat = vat;
+	}
+	
+	public OrderItem(Product product, CartItem cartItem) {
+		super();
+		this.productId = ProductManager.getInstance().resolveProductId(product);
+		this.name = product.getName();
+		this.quantity = cartItem.getQuantity();
+		this.price = product.getPrice();
+		this.vat = product.getVat();
 	}
 
 	public int getProductId() {
@@ -42,11 +55,11 @@ public class OrderItem {
 		this.quantity = quantity;
 	}
 
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 

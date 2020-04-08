@@ -1,16 +1,17 @@
 package shop.product;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.UUID;
 
 public class Product {
 	private String uuid;
 	private String name;
-	private double price;
+	private BigDecimal price;
 	private int vat;
 	private ProductProperty[] properties = new ProductProperty[0];
 	
-	public Product(String name, double price, int vat) {
+	public Product(String name, BigDecimal price, int vat) {
 		super();
 		this.uuid = UUID.randomUUID().toString();
 		this.name = name;
@@ -39,11 +40,13 @@ public class Product {
 		this.name = name;
 	}
 
-	public double getPrice() {
+
+
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
@@ -67,14 +70,6 @@ public class Product {
 	public String toString() {
 		return "Product [uuid=" + uuid + ", name=" + name + ", price=" + price + ", vat=" + vat + ", properties="
 				+ Arrays.toString(properties) + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
-		return result;
 	}
 
 	@Override

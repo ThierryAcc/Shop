@@ -13,6 +13,8 @@ public class CustomerAddress {
 		this.place = place;
 		this.country = country;
 	}
+	
+	
 
 	public String getStreet() {
 		return street;

@@ -1,5 +1,6 @@
 package shop.cart;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,6 +14,7 @@ import shop.order.Order;
 import shop.order.OrderAddress;
 import shop.order.OrderItem;
 import shop.product.Product;
+import shop.product.ProductManager;
 
 public class CartManager {
 	private Cart cart;
@@ -58,10 +60,10 @@ public class CartManager {
 		OrderItem[] items = new OrderItem[cartItems.length];
 		for (int i = 0; i < cartItems.length; i++) {
 			Product product = cartItems[i].getProduct();
-			int productId = i; // WHAT IS THE PRODUCT ID?
+			int productId = ProductManager.getInstance().resolveProductId(product);
 			String name = cartItems[i].getProduct().getName();
 			int quantity = cartItems[i].getQuantity();
-			double price = product.getPrice();
+			BigDecimal price = product.getPrice();
 			int vat = product.getVat();
 			items[i] = new OrderItem(productId, name, quantity, price, vat);
 		}
@@ -70,4 +72,30 @@ public class CartManager {
 
 		return order;
 	}
+	
+	// HÖHERER GRAD DER KOPPLUNG
+	public Order checkout2() {
+
+		String orderNumber = UUID.randomUUID().toString();
+		LocalDateTime shippedTime = LocalDateTime.now();
+		Date paid = new Date();
+
+		Customer customer = this.cart.getCreatedBy().getCustomer();
+		OrderAddress shippedTo = new OrderAddress(customer.getAddress());
+		BankPaymentMethod paidWith = customer.getPaymentMethod();
+
+		CartItem[] cartItems = this.cart.getCartItems();
+		OrderItem[] items = new OrderItem[cartItems.length];
+		
+		// neuer OrderItem-Konstruktor
+		for (int i = 0; i < cartItems.length; i++) {
+			Product product = cartItems[i].getProduct();
+			items[i] = new OrderItem(product, cartItems[i]);
+		}
+
+		Order order = new Order(orderNumber, shippedTime, shippedTo, paid, paidWith, items);
+
+		return order;
+	}
+	
 }

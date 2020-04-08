@@ -1,5 +1,6 @@
 package shop;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -24,9 +25,9 @@ public class CliApp {
 		Account account1 = new Account("Thierry", "1234", customer);
 		CartManager cartmanager = new CartManager();
 
-		Product product1 = new Product("Henniez", 0.60, 123123);
-		Product product2 = new Product("Bananen", 0.90, 31233);
-		Product product3 = new Product("Salat", 1.90, 444);
+		Product product1 = new Product("Henniez", new BigDecimal(0.60), 123123);
+		Product product2 = new Product("Bananen", new BigDecimal(0.90), 31233);
+		Product product3 = new Product("Salat", new BigDecimal(1.90), 444);
 
 		product1.addProperty("verpackt", "1");
 		product3.addProperty("verpackt", "1");
@@ -39,9 +40,13 @@ public class CliApp {
 
 		cartmanager.create(account1);
 		cartmanager.addItem(10, product1);
+		cartmanager.addItem(2, product2);
 		cartmanager.addItem(5, product3);
-		Order order1 = cartmanager.checkout();
+		cartmanager.removeItem(product2);
+		
+		Order order1 = cartmanager.checkout2();
 		System.out.println(order1);
+		
 	}
 
 }

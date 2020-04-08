@@ -1,5 +1,7 @@
 package shop.order;
 
+import shop.account.CustomerAddress;
+
 public class OrderAddress {
 	private String street;
 	private String zip;
@@ -12,6 +14,14 @@ public class OrderAddress {
 		this.zip = zip;
 		this.place = place;
 		this.country = country;
+	}
+	
+	public OrderAddress(CustomerAddress ca) {
+		super();
+		this.street = ca.getStreet();
+		this.zip = ca.getZip();
+		this.place = ca.getPlace();
+		this.country = ca.getCountry();
 	}
 
 	public String getStreet() {
